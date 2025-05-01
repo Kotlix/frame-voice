@@ -1,0 +1,10 @@
+spring:
+  liquibase:
+    enabled: true
+    user: postgres
+    password: postgres
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/'
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
