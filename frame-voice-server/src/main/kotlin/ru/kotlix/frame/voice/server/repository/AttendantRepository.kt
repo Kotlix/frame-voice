@@ -8,4 +8,8 @@ interface AttendantRepository {
     fun findById(id: Long): AttendantEntity?
 
     fun findAllByVoiceSessionId(voiceSessionId: Long): List<AttendantEntity>
+
+    fun findByUserId(userId: Long): AttendantEntity?
+
+    fun removeByUserId(userId: Long)
 }

@@ -53,10 +53,10 @@ class ServerRepositoryImpl(
             ROW_MAPPER,
         ).firstOrNull()
 
-    override fun findAllByNameAndRegion(
+    override fun findByNameAndRegion(
         name: String,
         region: String,
-    ): List<ServerEntity> =
+    ): ServerEntity? =
         npJdbc.query(
             """
             select * from server
@@ -68,5 +68,5 @@ class ServerRepositoryImpl(
                 "region" to region,
             ),
             ROW_MAPPER,
-        )
+        ).firstOrNull()
 }
