@@ -10,4 +10,6 @@ interface VoiceSessionRepository {
     fun findAllByServerId(serverId: Long): List<VoiceSessionEntity>
 
     fun findByVoiceId(voiceId: Long): VoiceSessionEntity?
+
+    fun removeById(id: Long)
 }

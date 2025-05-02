@@ -74,4 +74,14 @@ class VoiceSessionRepositoryImpl(
             ),
             ROW_MAPPER,
         ).firstOrNull()
+
+    override fun removeById(id: Long) {
+        npJdbc.update(
+            """
+            delete from voice_session
+            where id = :id;
+            """.trimIndent(),
+            mapOf("id" to id),
+        )
+    }
 }

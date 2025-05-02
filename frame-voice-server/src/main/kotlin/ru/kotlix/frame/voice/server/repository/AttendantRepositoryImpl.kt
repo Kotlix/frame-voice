@@ -60,4 +60,24 @@ class AttendantRepositoryImpl(
             mapOf("voice_session_id" to voiceSessionId),
             ROW_MAPPER,
         )
+
+    override fun findByUserId(userId: Long): AttendantEntity? =
+        npJdbc.query(
+            """
+            select * from attendant
+            where user_id = :user_id;
+            """.trimIndent(),
+            mapOf("user_id" to userId),
+            ROW_MAPPER,
+        ).firstOrNull()
+
+    override fun removeByUserId(userId: Long) {
+        npJdbc.update(
+            """
+            delete from attendant
+            where user_id = :user_id;
+            """.trimIndent(),
+            mapOf("user_id" to userId),
+        )
+    }
 }

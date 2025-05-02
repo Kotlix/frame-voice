@@ -7,8 +7,8 @@ interface ServerRepository {
 
     fun findById(id: Long): ServerEntity?
 
-    fun findAllByNameAndRegion(
+    fun findByNameAndRegion(
         name: String,
         region: String,
-    ): List<ServerEntity>
+    ): ServerEntity?
 }
