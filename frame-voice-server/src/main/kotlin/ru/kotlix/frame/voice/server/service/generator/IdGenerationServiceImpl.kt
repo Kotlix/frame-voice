@@ -5,7 +5,7 @@ import java.security.SecureRandom
 import java.time.LocalDateTime
 import java.util.Base64
 
-    @Service
+@Service
 class IdGenerationServiceImpl : IdGenerationService {
     private val secureRandom = SecureRandom(LocalDateTime.now().toString().toByteArray())
     private val secretLength = 48

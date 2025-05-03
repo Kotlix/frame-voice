@@ -15,14 +15,17 @@ import ru.kotlix.frame.voice.server.service.VoiceService
 class VoiceController(
     val voiceService: VoiceService,
 ) : VoiceApi {
-
     @PostMapping("/join")
-    override fun joinChannel(@RequestBody request: JoinRequest): ConnectionGuide {
+    override fun joinChannel(
+        @RequestBody request: JoinRequest,
+    ): ConnectionGuide {
         return voiceService.joinChannel(request)
     }
 
     @PostMapping("/leave")
-    override fun leaveChannel(@RequestBody request: LeaveRequest) {
+    override fun leaveChannel(
+        @RequestBody request: LeaveRequest,
+    ) {
         voiceService.leaveChannel(request)
     }
 }

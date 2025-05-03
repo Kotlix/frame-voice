@@ -11,4 +11,6 @@ interface ServerRepository {
         name: String,
         region: String,
     ): ServerEntity?
+
+    fun findAll(): List<ServerEntity>
 }
