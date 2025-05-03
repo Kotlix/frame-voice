@@ -69,4 +69,13 @@ class ServerRepositoryImpl(
             ),
             ROW_MAPPER,
         ).firstOrNull()
+
+    override fun findAll(): List<ServerEntity> {
+        return npJdbc.query(
+            """
+            select * from server    
+            """.trimIndent(),
+            ROW_MAPPER,
+        )
+    }
 }
