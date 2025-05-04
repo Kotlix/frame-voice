@@ -21,6 +21,6 @@ interface VoiceClient : VoiceApi {
         @RequestBody request: LeaveRequest,
     )
 
-    @GetMapping("/server/all")
+    @GetMapping("/voice/servers")
     override fun getServers(): Map<String, List<String>>
 }
