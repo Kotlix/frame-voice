@@ -7,7 +7,7 @@ dependencies {
 
     runtimeOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui")
 
-    implementation("ru.kotlix:frame-state-client-starter:1.0.0-SNAPSHOT")
+    implementation("ru.kotlix:frame-state-client-starter")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.liquibase:liquibase-core")
 
@@ -22,7 +22,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     runtimeOnly("org.postgresql:postgresql")
-    implementation("ru.kotlix:frame-state-client-starter:$frameStateVersion")
 }
 
 tasks.getByName<BootJar>("bootJar") {
@@ -31,4 +30,8 @@ tasks.getByName<BootJar>("bootJar") {
 
 tasks.getByName<Jar>("jar") {
     enabled = true
+}
+
+tasks.withType<PublishToMavenRepository> {
+    enabled = false
 }

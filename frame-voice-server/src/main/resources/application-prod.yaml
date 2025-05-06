@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  liquibase:
+    enabled: true
+  datasource:
+    url: 'jdbc:postgresql://${DB_ADDRESS}/${DB_NAME}'
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  cloud:
+    openfeign:
+      client:
+        config:
+          frame-state-client:
+            url: ${KTX_STATE_SVC_URL}

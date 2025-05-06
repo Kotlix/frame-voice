@@ -51,6 +51,9 @@ subprojects {
         dependencies {
             val springDocVersion: String by project
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
+
+            val frameStateVersion: String by project
+            dependency("ru.kotlix:frame-state-client-starter:$frameStateVersion")
         }
     }
 

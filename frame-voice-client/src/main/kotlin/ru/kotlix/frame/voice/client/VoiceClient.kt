@@ -9,18 +9,18 @@ import ru.kotlix.frame.voice.api.dto.ConnectionGuide
 import ru.kotlix.frame.voice.api.dto.JoinRequest
 import ru.kotlix.frame.voice.api.dto.LeaveRequest
 
-@FeignClient(name = "frame-voice-client", path = "/api/v1")
+@FeignClient(name = "frame-voice-client", path = "/api/v1/voice")
 interface VoiceClient : VoiceApi {
-    @PostMapping("/voice/join")
+    @PostMapping("/join")
     override fun joinChannel(
         @RequestBody request: JoinRequest,
     ): ConnectionGuide
 
-    @PostMapping("/voice/leave")
+    @PostMapping("/leave")
     override fun leaveChannel(
         @RequestBody request: LeaveRequest,
     )
 
-    @GetMapping("/server/all")
+    @GetMapping("/servers")
     override fun getServers(): Map<String, List<String>>
 }
