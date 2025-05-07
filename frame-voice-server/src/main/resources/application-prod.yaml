@@ -14,4 +14,4 @@ spring:
       client:
         config:
           frame-state-client:
-            url: ${KTX_STATE_SVC_URL}
+            url: http://frame-state:8080
