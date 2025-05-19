@@ -32,7 +32,7 @@ class VoiceServiceImpl(
             voiceSessionRepository.findByVoiceId(voiceId)
                 ?: throw VoiceNotFoundException(voiceId)
 
-        return attendantRepository.findAllByVoiceSessionId(voice.voiceId).map { it.userId }
+        return attendantRepository.findAllByVoiceSessionId(voice.id!!).map { it.userId }
     }
 
     @Transactional
