@@ -5,12 +5,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.kotlix.frame.state.client.UserStateClient
 import ru.kotlix.frame.voice.api.dto.ConnectionGuide
-import ru.kotlix.frame.voice.api.dto.JoinRequest
-import ru.kotlix.frame.voice.api.dto.LeaveRequest
 import ru.kotlix.frame.voice.server.exception.ServerNotFoundException
 import ru.kotlix.frame.voice.server.exception.UserAlreadyConnectedException
 import ru.kotlix.frame.voice.server.exception.UserNotInSessionException
 import ru.kotlix.frame.voice.server.exception.UserNotOnlineException
+import ru.kotlix.frame.voice.server.exception.VoiceNotFoundException
 import ru.kotlix.frame.voice.server.repository.AttendantRepository
 import ru.kotlix.frame.voice.server.repository.ServerRepository
 import ru.kotlix.frame.voice.server.repository.VoiceSessionRepository
@@ -28,23 +27,37 @@ class VoiceServiceImpl(
     private val generatorService: IdGenerationService,
 ) : VoiceService {
     @Transactional
-    override fun joinChannel(request: JoinRequest): ConnectionGuide {
+    override fun getUsers(voiceId: Long): List<Long> {
+        val voice =
+            voiceSessionRepository.findByVoiceId(voiceId)
+                ?: throw VoiceNotFoundException(voiceId)
+
+        return attendantRepository.findAllByVoiceSessionId(voice.id!!).map { it.userId }
+    }
+
+    @Transactional
+    override fun joinChannel(
+        userId: Long,
+        voiceId: Long,
+        serverName: String,
+        serverRegion: String,
+    ): ConnectionGuide {
         try {
-            val userOnline = userStateClient.getUserStatus(request.userId).online
-            if (!userOnline) throw UserNotOnlineException(request.userId)
+            val userOnline = userStateClient.getUserStatus(userId).online
+            if (!userOnline) throw UserNotOnlineException(userId)
         } catch (ex: FeignException.NotFound) {
-            throw RuntimeException("Failed to fetch user status for user ${request.userId}", ex)
+            throw RuntimeException("Failed to fetch user status for user $userId", ex)
         }
 
-        attendantRepository.findByUserId(request.userId)?.let {
-            throw UserAlreadyConnectedException(request.userId)
+        attendantRepository.findByUserId(userId)?.let {
+            throw UserAlreadyConnectedException(userId)
         }
 
         val server =
-            serverRepository.findByNameAndRegion(request.serverName, request.serverRegion)
-                ?: throw ServerNotFoundException(request.serverName, request.serverRegion)
+            serverRepository.findByNameAndRegion(serverName, serverRegion)
+                ?: throw ServerNotFoundException(serverName, serverRegion)
 
-        val sessionEntity = voiceSessionRepository.findByVoiceId(request.voiceId)
+        val sessionEntity = voiceSessionRepository.findByVoiceId(voiceId)
 
         val allChannelIds =
             voiceSessionRepository
@@ -57,7 +70,7 @@ class VoiceServiceImpl(
                     createdAt = OffsetDateTime.now(),
                     serverId = server.id,
                     channelId = generatorService.generateChannelId(allChannelIds),
-                    voiceId = request.voiceId,
+                    voiceId = voiceId,
                     secret = generatorService.generateSecret(),
                 ),
             )
@@ -71,7 +84,7 @@ class VoiceServiceImpl(
             attendantRepository.save(
                 AttendantEntity(
                     joinedAt = OffsetDateTime.now(),
-                    userId = request.userId,
+                    userId = userId,
                     voiceSessionId = savedSession.id,
                     shadowId = generatorService.generateShadowId(allShadowsIds),
                 ),
@@ -85,11 +98,11 @@ class VoiceServiceImpl(
     }
 
     @Transactional
-    override fun leaveChannel(request: LeaveRequest) {
+    override fun leaveChannel(userId: Long) {
         val existingAttendant =
-            attendantRepository.findByUserId(request.userId) ?: throw UserNotInSessionException(request.userId)
+            attendantRepository.findByUserId(userId) ?: throw UserNotInSessionException(userId)
 
-        attendantRepository.removeByUserId(request.userId)
+        attendantRepository.removeByUserId(userId)
         if (attendantRepository.findAllByVoiceSessionId(existingAttendant.voiceSessionId).isEmpty()) {
             voiceSessionRepository.removeById(existingAttendant.voiceSessionId)
         }

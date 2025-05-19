@@ -1,6 +1,7 @@
 package ru.kotlix.frame.voice.server.controller
 
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,17 +24,22 @@ class VoiceController(
         return serverService.getServersGroupedByRegion()
     }
 
+    @GetMapping("/users/{voiceId}")
+    override fun getUsers(
+        @PathVariable("voiceId") voiceId: Long,
+    ): List<Long> = voiceService.getUsers(voiceId)
+
     @PostMapping("/join")
     override fun joinChannel(
         @RequestBody request: JoinRequest,
     ): ConnectionGuide {
-        return voiceService.joinChannel(request)
+        return voiceService.joinChannel(request.userId, request.voiceId, request.serverName, request.serverRegion)
     }
 
     @PostMapping("/leave")
     override fun leaveChannel(
         @RequestBody request: LeaveRequest,
     ) {
-        voiceService.leaveChannel(request)
+        voiceService.leaveChannel(request.userId)
     }
 }
