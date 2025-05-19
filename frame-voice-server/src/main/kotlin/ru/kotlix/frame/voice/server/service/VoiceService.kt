@@ -1,11 +1,16 @@
 package ru.kotlix.frame.voice.server.service
 
 import ru.kotlix.frame.voice.api.dto.ConnectionGuide
-import ru.kotlix.frame.voice.api.dto.JoinRequest
-import ru.kotlix.frame.voice.api.dto.LeaveRequest
 
 interface VoiceService {
-    fun joinChannel(request: JoinRequest): ConnectionGuide
+    fun getUsers(voiceId: Long): List<Long>
 
-    fun leaveChannel(request: LeaveRequest)
+    fun joinChannel(
+        userId: Long,
+        voiceId: Long,
+        serverName: String,
+        serverRegion: String,
+    ): ConnectionGuide
+
+    fun leaveChannel(userId: Long)
 }
