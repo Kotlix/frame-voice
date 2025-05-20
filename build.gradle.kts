@@ -54,13 +54,18 @@ subprojects {
 
             val frameStateVersion: String by project
             dependency("ru.kotlix:frame-state-client-starter:$frameStateVersion")
+
+            val frameRouterVersion: String by project
+            dependency("ru.kotlix:frame-router-api-kafka:$frameRouterVersion")
         }
     }
 
     repositories {
         mavenLocal()
         mavenCentral()
+
         kotlix("frame-state")
+        kotlix("frame-router")
     }
 
     publishing {

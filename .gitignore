@@ -44,3 +44,4 @@ bin/
 
 ### Custom ###
 .kotlin
+/frame-voice-server/src/main/resources/application-dev-own.yaml

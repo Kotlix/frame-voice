@@ -21,3 +21,13 @@ data:
             config:
               frame-state-client:
                 url: http://frame-state:8080
+      kafka:
+        bootstrap-servers: ${KAFKA_ADDRESS}
+    
+    voice:
+      kafka:
+        authentication:
+          username: ${KAFKA_USER}
+          password: ${KAFKA_PASSWORD}
+        producer:
+          topic: ${KAFKA_TOPIC}

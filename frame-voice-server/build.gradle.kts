@@ -5,12 +5,14 @@ val frameStateVersion: String by project
 dependencies {
     api(project(":frame-voice-api"))
 
-    runtimeOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui")
-
     implementation("ru.kotlix:frame-state-client-starter")
+    implementation("ru.kotlix:frame-router-api-kafka")
+
+    runtimeOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.liquibase:liquibase-core")
 
+    implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework:spring-context-support")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-web")

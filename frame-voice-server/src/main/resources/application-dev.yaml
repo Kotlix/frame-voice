@@ -4,7 +4,7 @@ spring:
     user: postgres
     password: postgres
   datasource:
-    url: 'jdbc:postgresql://84.54.59.23:5432/voice'
+    url: 'jdbc:postgresql://localhost:5432/voice'
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -14,3 +14,13 @@ spring:
         config:
           frame-state-client:
             url: http://localhost:8082
+  kafka:
+    bootstrap-servers: localhost:9092
+
+voice:
+  kafka:
+    authentication:
+      username: admin
+      password: admin
+    producer:
+      topic: topic
