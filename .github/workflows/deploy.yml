@@ -22,6 +22,10 @@ env:
   DB_NAME: ${{ secrets.DB_NAME }}
   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   DB_USER: ${{ secrets.DB_USER }}
+  KAFKA_ADDRESS: ${{ secrets.KAFKA_ADDRESS }}
+  KAFKA_USER: ${{ secrets.KAFKA_USER }}
+  KAFKA_PASSWORD: ${{ secrets.KAFKA_PASSWORD }}
+  KAFKA_TOPIC: ${{ secrets.KAFKA_TOPIC }}
 
 jobs:
   deploy:
