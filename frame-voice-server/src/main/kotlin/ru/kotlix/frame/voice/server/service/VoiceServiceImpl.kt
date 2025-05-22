@@ -106,6 +106,7 @@ class VoiceServiceImpl(
 
         return ConnectionGuide(
             hostAddress = server.hostAddress,
+            secret = sessionEntity.secret,
             channelId = sessionEntity.channelId,
             shadowId = savedAttendant.shadowId,
         )
